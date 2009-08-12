@@ -1,4 +1,5 @@
 require 'rake'
+require 'yaml'
 
 desc 'Default: minify and combine javascripts'
 task :default => :build
@@ -19,11 +20,13 @@ task :build do
   
   # combine
   out = File.open('build/chronic.min.js', 'w');
-  out.puts COPYRIGHT
   puts "combining to chronic.min.js"
-  Dir['build/locales/en.min.js', 'build/*.tmp.js'].each do |f|
+  out.puts COPYRIGHT    
+  out.puts "if(!Date.Locale){#{File.open('build/locales/en.min.js').read}};"
+  Dir['build/*.tmp.js'].each do |f|
     puts "\tadding #{f}"
     FileUtils.copy_stream(File.open(f), out)
+    FileUtils.rm_rf f
   end
   out.close
 end
@@ -34,9 +37,14 @@ task :clean do
   FileUtils.rm_rf "pkg"
 end
 
+# version as hash and string
+VERSION_HASH = YAML.load(File.open('VERSION.yml'));
+VERSION = "#{VERSION_HASH[:major]}.#{VERSION_HASH[:minor]}.#{VERSION_HASH[:patch]}" unless Object.const_defined?('VERSION')
+
+# simple copyright notice
 COPYRIGHT = <<-EOT
 /*
- * chronic.js java script date library
+ * chronic.js java script date library (v#{VERSION})
  * http://github.com/lwe/chronic_js
  *
  * Copyright (c) #{Time.now.year} Lukas Westermann
