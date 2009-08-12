@@ -160,7 +160,7 @@
 	/**
 	 * Start parsing user input!
 	 */
-	$D.chronic_parse = function(str, date) {
+	$D.chronic_rparse = $D.chronic_parse = function(str, date) {
 		date = (date || Date.chronic_today()).chronic_clone();
 		date._base = date.chronic_clone();
 		var result = $PR.matchAndCall($PR.trim(str), date, $KS.keywords + $KS.orientation + $KS.days + $KS.months + $KS.units + $KS.seasons);
