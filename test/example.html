@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <link rel="stylesheet" href="../ext/testsuite.css" type="text/css" media="screen" />
+
+  <!-- include functionality -->
+  <script src="../js/locales/en.js" type="text/javascript"></script>  
+  <script src="../js/core.js" type="text/javascript"></script>    
+  <script src="../js/parse.js" type="text/javascript"></script>    
+
+  <!-- jquery -->
+  <script src="../ext/jquery.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+    $(function() {
+      $('#date').keyup(function() {
+        v = $(this).val();
+        if (v == '') $('#result').text('');
+        else {
+          d = Date.parse(v);
+          $('#result').text(d.toString());
+        }
+      })
+    });
+  </script>
+  
+  <style type="text/css">
+    #main { padding: 20px; font-size: 1.2em; }
+    #result { font-size: 0.9em; }
+    code { font-size: 0.8em; }
+  </style>
+</head>
+<body>
+  
+ <h1>chronic.js</h1>
+
+ <div id="main">
+   <p>
+     Feel free to type in any relative dates or dates:
+    </p>
+   <input type="text" id="date" name="date"/>   
+   <span id="result"></span>
+   <p>
+     <b>Examples:</b><br/>
+     <pre><code>today</code></pre>
+     <pre><code>2d</code></pre>
+     <pre><code>14 days</code></pre>
+     <pre><code>next mo</code></pre>
+     <pre><code>7/1</code></pre>     
+    </p>
+  </div>
+</body>
+</html>
