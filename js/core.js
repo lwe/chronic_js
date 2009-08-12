@@ -2,6 +2,12 @@
 	var $D = Date;
 	var $P = $D.prototype;
 	
+	$D.ChronicInfo = {
+		version: "@VERSION@",
+		date: "@DATE@",
+		name: "chronic.js - the regex-based, internationalized, date-expressions parser"		
+	};
+	
 	/**
 	 * Returns a new date instance, with the time reseted to
 	 * midnight (00:00:00.000).
