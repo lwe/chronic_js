@@ -5,18 +5,13 @@ $(function() {
 		ok(Date.ChronicParser);
 	});
 	
-	test("parsing 'today' should return current date", function() {
-		today = (new Date()).reset();
-		parsed = Date.parse('today');
-		
-		same(parsed, today, "is today");
+	test("parsing 'today' or 't' should return current date", function() {
+		same(Date.parse('today'), Date.today(), "is today");		
+		same(Date.parse('t'), Date.today(), "is today");		
 	});
 	
 	test("parsing 'tomorrow' returns current date + 1 day", function() {
-		tomorrow = (new Date()).add(1).reset();
-		parsed = Date.parse('tomorrow');
-		
-		same(parsed, tomorrow, "is tomorrow");
+		same(Date.parse('tomorrow'), Date.today().add(1), "is tomorrow");
 	});
 	
 	test("parsing 'next week' is equals today + 7 days", function() {

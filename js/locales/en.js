@@ -34,7 +34,7 @@ Date.Locale = {
 		year: /^(\d+)?\s*y(ears?)?\b/,
 	
 		// specials
-		today: /^today\b/i,
+		today: /^t(oday)?\b/i,
 		tomorrow: /^tomorrow\b/i,	
 		add: /^(?:next|nx|in|\+)\s*(.*)$/i,
 	

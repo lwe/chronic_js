@@ -16,7 +16,7 @@
 	$KS.days = " mon tue wed thu fri sat sun ";
 	$KS.months = " jan feb mrz apr may jun jul aug sep oct nov dec ";
 	$KS.units = " day week month year ";
-	$KS.keywords = " today tomorrow ";
+	$KS.keywords = " tomorrow today ";
 	$KS.orientation = " add subtract ";
 	$KS.seasons = " spring summer fall winter ";
 	
