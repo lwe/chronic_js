@@ -1,7 +1,5 @@
 (function() {
 	var $D = Date;
-	var $L = $D.Locale;
-	var $PAT = $L.patterns;
 	var $PR = $D.ChronicParser = {
 		functions: {},
 		log: window.console.log,
@@ -26,7 +24,7 @@
 		if ($PR.DEBUG) $PR.log("keywords => %o", keywords);
 		for (var i = 0, l = keywords.length; i < l; i++) {
 			var k = keywords[i];
-			var match = str.match($PAT[k]);
+			var match = str.match($D.Locale.patterns[k]);
 			if ($PR.DEBUG) $PR.log("%s => %s (%o, %o)", k, str, date, match);
 			if (match) {
 				return $FN[k](date, (functor || function() { return match[1]; })(str, date, match));
@@ -124,9 +122,9 @@
 			values = values.split(/[^\d]+/);
 
 			// evaluate dayOfMonth (day), month and year
-			year = $FN._parseInt(values[$L.dateOrder.indexOf('y')]) || date.getFullYear();
-			month = $FN._parseInt(values[$L.dateOrder.indexOf('m')]) || (date.getMonth()+1);
-			day = $FN._parseInt(values[$L.dateOrder.indexOf('d')]) || date.getDate();
+			year = $FN._parseInt(values[$D.Locale.dateOrder.indexOf('y')]) || date.getFullYear();
+			month = $FN._parseInt(values[$D.Locale.dateOrder.indexOf('m')]) || (date.getMonth()+1);
+			day = $FN._parseInt(values[$D.Locale.dateOrder.indexOf('d')]) || date.getDate();
 			
 			if (month > 12) { // switch day <-> month
 				_tmp = day;
