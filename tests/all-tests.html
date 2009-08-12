@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <link rel="stylesheet" href="../ext/testsuite.css" type="text/css" media="screen" />
+
+  <!-- include functionality -->
+  <script src="../js/locales/en.js" type="text/javascript"></script>    
+  <script src="../js/core.js" type="text/javascript"></script>
+  <script src="../js/parse.js" type="text/javascript"></script>
+
+  <!-- QUnit test runner -->
+  <script src="../ext/jquery.js" type="text/javascript"></script>
+  <script src="../ext/testrunner.js" type="text/javascript"></script>
+  
+  <!-- include unit tests -->
+  <script src="core_test.js"></script>
+  <script src="parse_test.js"></script>  
+  
+  <script type="text/javascript">
+    if (location.hash == '#debug') Date.ChronicParser.DEBUG = true;
+  </script>
+</head>
+<body>
+  
+ <h1>chronic.js - All tests</h1>
+ <h2 id="banner"></h2>
+ <h2 id="userAgent"></h2>
+
+ <ol id="tests"></ol>
+
+ <div id="main"></div>
+ 
+</body>
+</html>
