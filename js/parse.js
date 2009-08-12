@@ -118,16 +118,16 @@
 		if (values.match(/^\d+\s*(\.|st|nd|rd|th)$/)) {
 			// just an ordinal
 			date.setDate(parseInt(values));
-			if (date < date._base) date.add('month'); // add a month
+			if (date <= date._base) date.add('month'); // add a month
 		}
-		else {
-			values = values.split(/[\s\.\-\/]+/);
+		else if (values.match(/\d/)) {
+			values = values.split(/[^\d]+/);
 
 			// evaluate dayOfMonth (day), month and year
 			year = $FN._parseInt(values[$L.dateOrder.indexOf('y')]) || date.getFullYear();
-			month = $FN._parseInt(values[$L.dateOrder.indexOf('m')]) || date.getMonth();
+			month = $FN._parseInt(values[$L.dateOrder.indexOf('m')]) || (date.getMonth()+1);
 			day = $FN._parseInt(values[$L.dateOrder.indexOf('d')]) || date.getDate();
-
+			
 			if (month > 12) { // switch day <-> month
 				_tmp = day;
 				day = month;
