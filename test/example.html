@@ -20,7 +20,7 @@
         v = $(this).val();
         if (v == '') $('#result').html('&nbsp;');
         else {
-          d = Date.parse(v);
+          d = Date.chronic_parse(v);
           $('#result').text(d.toString());
         }
       });

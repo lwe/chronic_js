@@ -29,7 +29,7 @@
 		if ($PR.DEBUG) $PR.log("keywords => %o", keywords);
 		for (var i = 0, l = keywords.length; i < l; i++) {
 			var k = keywords[i];
-			var match = str.match($D.Locale.patterns[k]);
+			var match = str.match($D.ChronicLocale.patterns[k]);
 			if ($PR.DEBUG) $PR.log("%s => %s (%o, %o)", k, str, date, match);
 			if (match) {
 				return $FN[k](date, (functor || function() { return match[1]; })(str, date, match));
@@ -38,8 +38,8 @@
 	};
 
 	// keywords
-	$FN.today = function() { return Date.today(); };
-	$FN.tomorrow = function() { return Date.today().add(1); };
+	$FN.today = function() { return Date.chronic_today(); };
+	$FN.tomorrow = function() { return Date.chronic_today().chronic_add(1); };
 
 	// orientation: future => add
 	$FN.add = function(date, str) {
@@ -49,7 +49,7 @@
 	// days
 	$FN._daySet = function(date, dayOfWeek) {
 		var diff = (dayOfWeek - date.getDay() + 7) % 7;
-		return date.add(diff === 0 ? diff += 7 : diff);
+		return date.chronic_add(diff === 0 ? diff += 7 : diff);
 	};
 	$FN.sun = function(date) { return $FN._daySet(date, 0); };
 	$FN.mon = function(date) { return $FN._daySet(date, 1); };
@@ -66,8 +66,8 @@
 		date.setDate(1);
 		if (year > 1) date.setYear((year < $PR.MIN_YEAR ? year + 2000 : year) - 1);
 		var diff = (month - date.getMonth() + 12) % 12;
-		date.add(diff === 0 ? diff += 12 : diff, 'month');
-		date.setDate(Math.min(_n, $D._daysInMonth(date.getFullYear(), date.getMonth())));
+		date.chronic_add(diff === 0 ? diff += 12 : diff, 'month');
+		date.setDate(Math.min(_n, $D.chronic_daysInMonth(date.getFullYear(), date.getMonth())));
 		return date;
 	};
 	$FN.jan = function(date, value) { return $FN._monthSet(date, value, 0); };
@@ -84,10 +84,10 @@
 	$FN.dec = function(date, value) { return $FN._monthSet(date, value, 11); };
 	
 	// units: day, week, month, year etc.
-	$FN.day   = function(date, value) { return date.add(value, 'day'); };
-	$FN.week  = function(date, value) { return date.add(value, 'week'); };
-	$FN.month = function(date, value) { return date.add(value, 'month'); };
-	$FN.year  = function(date, value) { return date.add(value, 'year'); };
+	$FN.day   = function(date, value) { return date.chronic_add(value, 'day'); };
+	$FN.week  = function(date, value) { return date.chronic_add(value, 'week'); };
+	$FN.month = function(date, value) { return date.chronic_add(value, 'month'); };
+	$FN.year  = function(date, value) { return date.chronic_add(value, 'year'); };
 	
 	// seasons
 	$FN._seasonSet = function(date, year, day, month) {
@@ -97,7 +97,7 @@
 			date.setYear(year);
 		}
 		else if (date < date._base){
-			date.add('year'); // advance a year
+			date.chronic_add('year'); // advance a year
 		}
 		return date;
 	};	
@@ -115,21 +115,21 @@
 	}
 	
 	/** Numbers are just added as days... */
-	$FN.number = function(date, value) { return date.add(value, 'days'); }
+	$FN.number = function(date, value) { return date.chronic_add(value, 'days'); }
 	
 	$FN.date = function(date, values) {
 		if (values.match(/^\d+\s*(\.|st|nd|rd|th)$/)) {
 			// just an ordinal
 			date.setDate(parseInt(values));
-			if (date <= date._base) date.add('month'); // add a month
+			if (date <= date._base) date.chronic_add('month'); // add a month
 		}
 		else if (values.match(/\d/)) {
 			values = values.split(/[^\d]+/);
 
 			// evaluate dayOfMonth (day), month and year
-			year = $FN._parseInt(values[$D.Locale.dateOrder.indexOf('y')]) || date.getFullYear();
-			month = $FN._parseInt(values[$D.Locale.dateOrder.indexOf('m')]) || (date.getMonth()+1);
-			day = $FN._parseInt(values[$D.Locale.dateOrder.indexOf('d')]) || date.getDate();
+			year = $FN._parseInt(values[$D.ChronicLocale.dateOrder.indexOf('y')]) || date.getFullYear();
+			month = $FN._parseInt(values[$D.ChronicLocale.dateOrder.indexOf('m')]) || (date.getMonth()+1);
+			day = $FN._parseInt(values[$D.ChronicLocale.dateOrder.indexOf('d')]) || date.getDate();
 			
 			if (month > 12) { // switch day <-> month
 				_tmp = day;
@@ -145,7 +145,7 @@
 			date.setYear(year < $PR.MIN_YEAR ? year + 2000 : year);
 			date.setMonth(month - 1);
 			date.setDate(day);
-			if (date <= date._base) date.add('year');
+			if (date <= date._base) date.chronic_add('year');
 		}
 		
 		return date;
@@ -160,9 +160,9 @@
 	/**
 	 * Start parsing user input!
 	 */
-	$D.parse = function(str, date) {
-		date = (date || Date.today()).clone();
-		date._base = date.clone();
+	$D.chronic_parse = function(str, date) {
+		date = (date || Date.chronic_today()).chronic_clone();
+		date._base = date.chronic_clone();
 		var result = $PR.matchAndCall($PR.trim(str), date, $KS.keywords + $KS.orientation + $KS.days + $KS.months + $KS.units + $KS.seasons);
 		if ( ! result) result = $FN.unmatched(date, str); // handle unmatched...
 		return result;

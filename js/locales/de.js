@@ -1,4 +1,4 @@
-Date.Locale = {
+Date.ChronicLocale = {
 	locale: 'de',
 
 	dateOrder: 'dmy',
