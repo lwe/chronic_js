@@ -23,7 +23,19 @@
           d = Date.parse(v);
           $('#result').text(d.toString());
         }
-      })
+      });
+      $('a[rel="locale"]').click(function() {
+        l = $(this).attr('href').substr(1);
+        js = location.href.replace(/test\/example\.html.*$/, '') + 'js/locales/' + l + '.js';
+        $.getScript(js, function() {
+          $('#result').text('loaded ' + l);
+          $('#date').val('')[0].focus();
+        });
+        return false;
+      });
+      $('#locales').hide();
+      $.getScript('../js/locales/en.js', function() { $('#locales').show(); });
+      $('#date')[0].focus();
     });
   </script>
   
@@ -45,6 +57,7 @@
    <input type="text" id="date" name="date"/>   
    <span id="result">&nbsp;</span>
    </p>
+   <p id="locales">Available locales: <a rel="locale" href="#de">DE</a> | <a rel="locale" href="#en">EN</a></p>
    <p>
      <b>Examples:</b><br/>
      <pre><code>today</code></pre>
