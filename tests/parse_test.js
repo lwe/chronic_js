@@ -85,20 +85,28 @@ $(function() {
 		same(Date.parse('15'), Date.today().add(15), 'adding 15 days');
 	});
 	
-	test("parsing any dates, like 7/1 or 2009-12-09", function() {
+	test('parsing a number as date using the "." suffix -> "15." => advance to the 15th', function() {
+		base = new Date(2009, 7, 12);
+		on_15_aug = new Date(2009, 7, 15);
+		on_11_sep = new Date(2009, 8, 11);
+		
+		same(Date.parse('15th', base), on_15_aug, "go to to '15.'");
+		same(Date.parse('11.', base), on_11_sep, "go to next month if '11.' and current date > 11");
+	});
+	
+	test("parsing any dates, like 7/1/2009 or 2009-12-09", function() {
 		first_jul = new Date(2010, 6, 1);
 		nine_dec = new Date(2009, 11, 9);
 		
-		same(Date.parse('7/1', new Date(2009, 7, 1)), first_jul, "advance to next july");
-		same(Date.parse('2009-12-09'), nine_dec, 'set to 9th of december');
+		same(Date.parse('7/1/2009', new Date(2009, 7, 1)), first_jul, "7/1/2009");
+		same(Date.parse('2009-12-09'), nine_dec, '2009-12-09');
+		same(Date.parse('12/9/09'), nine_dec, 'same, but: 12/9/09');		
 	});
+	
+	test("parsing dates with missing parameters like, no year etc.", function() {
+		base = new Date(2009, 5, 1);
 		
-	test('parsing a number as date using the "." suffix -> "15." => advance to the 15th', function() {
-		base = new Date(2009, 7, 12);
-		on_15_sep = new Date(2009, 8, 15);
-		on_11_sep = new Date(2009, 8, 11);
-		
-		same(Date.parse('15.', base), on_15_sep, "go to to '15.'");
-		same(Date.parse('11.', base), on_11_sep, "go to next month if '11.' and current date > 11");
+		first_jul_2010 = new Date(2009, 6, 1);
+		same(Date.parse('7/1', base), first_jul_2010, '7/1 -> from base 2009-06-01');
 	});
 });

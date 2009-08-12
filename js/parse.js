@@ -114,9 +114,44 @@
 	/** Numbers are just added as days... */
 	$FN.number = function(date, value) { return date.add(value, 'days'); }
 	
-	$FN.date = function(date, value) {
-		console.log(value);
+	$FN.date = function(date, values) {
+		if (values.match(/^\d+\s*(\.|st|nd|rd|th)$/)) {
+			// just an ordinal
+			date.setDate(parseInt(values));
+			if (date < date._base) date.add('month'); // add a month
+		}
+		else {
+			values = values.split(/[\s\.\-\/]+/);
+
+			// evaluate dayOfMonth (day), month and year
+			year = $FN._parseInt(values[$L.dateOrder.indexOf('y')]) || date.getFullYear();
+			month = $FN._parseInt(values[$L.dateOrder.indexOf('m')]) || date.getMonth();
+			day = $FN._parseInt(values[$L.dateOrder.indexOf('d')]) || date.getDate();
+
+			if (month > 12) { // switch day <-> month
+				_tmp = day;
+				day = month;
+				month = _tmp;
+			}
+			if (day > 31) { // switch day <-> year
+				_tmp = year;
+				year = day;
+				day = _tmp;
+			}
+			
+			date.setYear(year < $PR.MIN_YEAR ? year + 2000 : year);
+			date.setMonth(month - 1);
+			date.setDate(day);
+			if (date <= date._base) date.add('year');
+		}
+		
 		return date;
+	}
+	
+	/** Parse integer, but strip leading zeros (0). */
+	$FN._parseInt = function(i) {
+		if (i instanceof Number) return i;
+		return parseInt((i + "").replace(/^0+/, ''));
 	}
 	
 	/**

@@ -1,6 +1,8 @@
 Date.Locale = {
 	locale: 'en',
-	
+
+	dateOrder: 'mdy',
+
 	patterns: {		
 		// days
 		mon: /^mo(n(day)?)?\b/,
@@ -10,7 +12,7 @@ Date.Locale = {
 		fri: /^fr(i(day)?)?\b/,
 		sat: /^sa(t(urday)?)?\b/,
 		sun: /^su(n(day)?)?\b/,
-		
+	
 		// months
 		jan: /^jan(?:uary)?(\s+\d{2,4})?/,
 		feb: /^feb(?:ruary)?(\s+\d{2,4})?/,
@@ -24,18 +26,18 @@ Date.Locale = {
 		oct: /^oct(?:ober)?(\s+\d{2,4})?/,
 		nov: /^nov(?:ember)?(\s+\d{2,4})?/,
 		dec: /^dec(?:ember)?(\s+\d{2,4})?/,
-		
+	
 		// units
 		day: /^(\d+)?\s*d(ays?)?\b/,
 		week: /^(\d+)?\s*w(eeks?|k)?\b/,
 		month: /^(\d+)?\s*m(onths?)?\b/,
 		year: /^(\d+)?\s*y(ears?)?\b/,
-		
+	
 		// specials
 		today: /^today\b/i,
 		tomorrow: /^tomorrow\b/i,	
 		add: /^(?:next|nx|in|\+)\s*(.*)$/i,
-		
+	
 		// seasons
 		spring: /^spring(\s+\d{2,4})?/i,
 		summer: /^summer(\s+\d{2,4})?/i,
