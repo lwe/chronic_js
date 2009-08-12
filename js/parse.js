@@ -18,9 +18,14 @@
 	$KS.orientation = " add subtract ";
 	$KS.seasons = " spring summer fall winter ";
 	
+	/* Because not all browsers have support for 'string'.trim(); */
+	$PR.trim = function(text) {
+		return (text || "").replace(/^\s+|\s+$/g, '');
+	};
+	
 	/** Try to match against supplied keywords and call hanlder! */
 	$PR.matchAndCall = function(str, date, keywords, functor) {
-		keywords = keywords.trim().split(/\s+/);
+		keywords = $PR.trim(keywords).split(/\s+/);
 		if ($PR.DEBUG) $PR.log("keywords => %o", keywords);
 		for (var i = 0, l = keywords.length; i < l; i++) {
 			var k = keywords[i];
@@ -158,7 +163,7 @@
 	$D.parse = function(str, date) {
 		date = (date || Date.today()).clone();
 		date._base = date.clone();
-		var result = $PR.matchAndCall(str.trim(), date, $KS.keywords + $KS.orientation + $KS.days + $KS.months + $KS.units + $KS.seasons);
+		var result = $PR.matchAndCall($PR.trim(str), date, $KS.keywords + $KS.orientation + $KS.days + $KS.months + $KS.units + $KS.seasons);
 		if ( ! result) result = $FN.unmatched(date, str); // handle unmatched...
 		return result;
 	};
