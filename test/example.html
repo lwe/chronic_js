@@ -11,12 +11,14 @@
 
   <!-- jquery -->
   <script src="../ext/jquery.js" type="text/javascript"></script>
-  
+
+  <script src="test_helper.js"></script>  
+    
   <script type="text/javascript">
     $(function() {
       $('#date').keyup(function() {
         v = $(this).val();
-        if (v == '') $('#result').text('');
+        if (v == '') $('#result').html('&nbsp;');
         else {
           d = Date.parse(v);
           $('#result').text(d.toString());
@@ -33,14 +35,16 @@
 </head>
 <body>
   
- <h1>chronic.js</h1>
+ <h1>chronic.js - try for yourself!</h1>
 
  <div id="main">
    <p>
-     Feel free to type in any relative dates or dates:
+     Feel free to type in any relative dates or pattern:
     </p>
+   <p>
    <input type="text" id="date" name="date"/>   
-   <span id="result"></span>
+   <span id="result">&nbsp;</span>
+   </p>
    <p>
      <b>Examples:</b><br/>
      <pre><code>today</code></pre>
